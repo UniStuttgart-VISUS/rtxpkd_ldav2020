@@ -32,6 +32,8 @@ set(sources
   allPKD/AllPKD.cpp
   treelets/Treelets.cpp
   OptixParticles.cpp
+  DensityVolume.cpp
+  Util.cpp
 
   loaders/loaders.cpp
   loaders/p4.cpp

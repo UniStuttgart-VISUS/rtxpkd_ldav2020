@@ -26,9 +26,18 @@ namespace pkd {
       int deviceCount;
       OptixTraversableHandle world;
       int       rec_depth;
+      int*      accumIDLastCulled;
+      float     radius;
       vec2ui    fbSize;
       uint32_t *colorBufferPtr;
+      uint32_t *normalBufferPtr;
+      uint32_t* depthBufferPtr;
+      uint32_t* coverageBufferPtr;
       float4   *accumBufferPtr;
+      float4   *normalAccumBufferPtr;
+      float4* depthConfidenceAccumBufferPtr; //(d,C,k,Enk)
+      float4* depthConfidenceCullBufferPtr; //(d,C,k,Enk)
+      float* confidentDepthBufferPtr;
       Particle *particleBuffer;
       FrameState *frameStateBuffer;
     };

@@ -26,6 +26,7 @@
 // ours
 #include "rtxParticles/common/Particles.h"
 #include "rtxParticles/common/programs/FrameState.h"
+#include "DensityVolume.h"
 
 #include <chrono>
 #include <queue>
@@ -43,13 +44,27 @@ namespace pkd {
     void setModel(Model::SP model, bool override_model = false);
 
     virtual void buildModel(Model::SP model, bool override_model = false) = 0;
+
+    void buildDensityField(vec3f xUnit, vec3f yUnit, vec3f zUnit);
+
+    void calculateNormalCdf();
     
-    void resizeFrameBuffer(const vec2i &newSize);
+    virtual void resizeFrameBuffer(const vec2i& newSize) = 0;
+    void resizeFrameBufferGeneral(const vec2i& newSize);
 
     void updateFrameState(device::FrameState &fs);
 
     uint32_t *mapColorBuffer();
     void unmapColorBuffer();
+
+    uint32_t* mapNormalBuffer();
+    void unmapNormalBuffer();
+
+    uint32_t* mapDepthBuffer();
+    void unmapDepthBuffer();
+
+    uint32_t* mapCoverageBuffer();
+    void unmapCoverageBuffer();
 
     void render();
     
@@ -60,12 +75,29 @@ namespace pkd {
     OWLModule module = 0;
     OWLBuffer frameStateBuffer = 0;
     OWLBuffer colorBuffer = 0;
+    OWLBuffer normalBuffer = 0;
+    OWLBuffer depthBuffer = 0;
+    OWLBuffer coverageBuffer = 0;
     OWLBuffer accumBuffer = 0;
+    OWLBuffer normalAccumBuffer = 0;
+    OWLBuffer depthConfidenceAccumBuffer = 0;
+    OWLBuffer depthConfidenceCullBuffer = 0;
+    OWLBuffer confidentDepthBuffer = 0;
     OWLGroup  world = 0;
     OWLRayGen rayGen = 0;
     OWLBuffer particleBuffer = 0;
+    OWLBuffer densityBuffer = 0;
+    OWLBuffer densityContextBuffer = 0;
+    OWLBuffer normalCdfBuffer = 0;
+    OWLBuffer accumIDLastCulled = 0;
 
     static int rec_depth;
+    static int voxel_count;
+    static float radius;
+
+    Model::SP model;
+
+    DensityVolume densityVolume;
   };
 
 }

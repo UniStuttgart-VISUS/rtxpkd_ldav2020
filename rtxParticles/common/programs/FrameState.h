@@ -31,6 +31,7 @@ namespace pkd {
       vec3f camera_screen_du;
       vec3f camera_screen_dv;
       vec3f camera_screen_00;
+      vec3f camera_screen_center;
       vec3f camera_lens_center;
       vec3f camera_lens_du;
       vec3f camera_lens_dv;
@@ -41,6 +42,19 @@ namespace pkd {
       /*! num samples per pixel */
       int   samplesPerPixel { 1 };
 
+      bool orthoProjection { 1 };
+
+
+      bool probabilisticCulling { 0 };  // is probabilistic culling enabled?
+      float c_occ = 0.95f;              // confidence at which we cull
+      int convergenceIterations = { 128 }; // how many iterations without change until we consider culling converged
+      int nBudget = { 25 };             // n_budget for acceptance probability
+      bool quant = { 0 };               // voxel backface quantisation
+      bool interp = { 0 };              // interpolate density volume samples
+      int kernelSize = { 0 };           // Size of culling kernel
+
+      bool debugOutput{ 0 };
+      
       bool heatMapEnabled { 0 };
       float heatMapScale = 1.f;
       vec2i dbgPixel { 400,400};
